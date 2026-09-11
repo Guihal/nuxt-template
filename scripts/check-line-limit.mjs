@@ -9,8 +9,17 @@ const MAX_LINES = 200
 // Generated lockfiles are the only files excluded from the universe.
 const EXCLUDED_PATHS = ['package-lock.json']
 // Binary extensions are outside the counting domain: wc -l semantics is
-// meaningless for binary content.
-const BINARY_EXTENSIONS = ['.png', '.ico', '.webp']
+// meaningless for binary content. Font binaries are excluded preemptively,
+// before any font file lands in the repo.
+const BINARY_EXTENSIONS = [
+  '.png',
+  '.ico',
+  '.webp',
+  '.woff',
+  '.woff2',
+  '.ttf',
+  '.otf',
+]
 
 let universe
 try {
