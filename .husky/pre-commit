@@ -1,0 +1,6 @@
+# pre-commit gate: lint -> typecheck -> line-guard.
+# Any non-zero exit rejects the commit.
+set -e
+npm run lint
+npm run typecheck
+npm run line-guard
