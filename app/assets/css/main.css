@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* Token bridge (I7): scss $vars -> :root custom props (theme.scss, emitted
+   once) -> TW theme mirrors them as var() references. `inline` keeps the
+   theme values as var() links instead of copied values — without it the
+   bridge degrades into a second source of truth. */
+@theme inline {
+  --color-brand: var(--token-brand);
+  --color-surface: var(--token-surface);
+  --spacing-token: var(--token-space);
+  --radius-card: var(--token-radius);
+}
+
+/* @apply lives ONLY in this tailwind-entry graph (I6): sass compilation
+   runs before TW expansion, so @apply inside .scss is never resolved. */
+.demo-card {
+  @apply bg-surface rounded-card p-token;
+}

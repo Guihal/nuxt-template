@@ -1,0 +1,15 @@
+// Shared mixins and functions, injected into every scss compilation via main.
+// Output-free (I5): declarations only, no CSS rules.
+@use "sass:math";
+@use "tokens" as *;
+
+@mixin card($pad: 16px) {
+  border-radius: $radius;
+  padding: $pad;
+}
+
+// Clamp-like fluid value: $min at 320px viewport, $max at 1920px, linear between.
+@function fluid($min, $max) {
+  $slope: math.div($max - $min, 1600);
+  @return calc(#{$min}px + #{$slope} * (100vw - 320px));
+}

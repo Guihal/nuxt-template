@@ -1,0 +1,11 @@
+// Emitting token entry — the only scss file allowed to emit CSS (I5).
+// Compiled exactly once through the `css` array in nuxt.config.ts.
+// NO own @use here: additionalData already injects main into this
+// compilation — a second @use chain breaks sass (R9).
+// Named theme.scss, not tokens.scss: would collide with _tokens.scss.
+:root {
+  --token-brand: #{$brand};
+  --token-surface: #{$surface};
+  --token-space: #{$space};
+  --token-radius: #{$radius};
+}

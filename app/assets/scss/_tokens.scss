@@ -1,0 +1,8 @@
+// Design tokens — the single source of values.
+// A token is declared here and bridged by two synchronized mirrors (I7):
+// `:root` custom props in theme.scss (emitter) and `@theme inline` in
+// app/assets/css/main.css. Output-free (I5): $vars only, no CSS rules.
+$brand: #ff4d00;
+$surface: #ffffff;
+$space: 8px;
+$radius: 12px;
