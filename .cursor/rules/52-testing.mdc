@@ -1,0 +1,28 @@
+---
+description: Dormant test stack activator — @nuxt/test-utils 4 + vitest 4 verified pair, happy-dom default environment, projects config schema, tests belong under app/ for typecheck coverage
+globs: vitest.config.ts, **/*.spec.ts, **/*.test.ts
+---
+
+# Тесты (dormant — активатор)
+
+Правило спит, пока в репо нет `vitest.config.ts` и `*.spec.ts`/`*.test.ts`.
+Раннер не установлен намеренно: тест-раннер без тестов — мёртвый вес; ставится
+только вместе с первым тестом.
+
+- Активация (один коммит с первым тестом): `npm i -D @nuxt/test-utils@4
+  vitest@4 @vue/test-utils happy-dom` плюс `@nuxt/test-utils/module` в modules.
+- Пара версий: vitest 4 ↔ @nuxt/test-utils 4 (пиры test-utils v4 зажаты на
+  vitest ^4.0.2). vitest 5 уже вышел — при активации перепроверить его
+  поддержку в @nuxt/test-utils, не поднимать вслепую.
+- DOM-среда — happy-dom (дефолт доков Nuxt Testing); jsdom — осознанная замена,
+  а не выбор по привычке.
+- Конфиг — схема projects из доков (unit/node + nuxt-проект через
+  `defineVitestProject`), не simple-setup: nuxt-проект нужен только там, где
+  тестируется код с окружением Nuxt.
+- Тесты класть в `app/**`: вне tsconfig-проектов `nuxt typecheck` их не видит
+  (граница — 30-quality-gates), и единственной проверкой останется ESLint.
+- Хелперы компонентных тестов — `mountSuspended`/`renderSuspended`/
+  `mockNuxtImport` из `@nuxt/test-utils/runtime`.
+
+Источники: https://nuxt.com/docs/getting-started/testing,
+https://github.com/nuxt/test-utils/releases, https://vitest.dev.

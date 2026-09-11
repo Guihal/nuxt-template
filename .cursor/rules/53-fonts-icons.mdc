@@ -1,0 +1,23 @@
+---
+description: Dormant fonts and icons activator — @nuxt/fonts on the 0.x line, @nuxt/icon css mode with icon.cssLayer for Tailwind v4 layers, per-set iconify collections, font binaries already outside line-guard
+globs: app/assets/fonts/**, **/*.woff, **/*.woff2, **/*.ttf, **/*.otf
+---
+
+# Шрифты и иконки (dormant — активатор)
+
+Правило спит, пока нет шрифтовых файлов и не подключены модули. Зависимости не
+ставить без задачи на шрифты/иконки.
+
+- Шрифты — `@nuxt/fonts`: актуальная линия 0.x (v0.14.0; НЕ «1.x»), активация
+  `npx nuxt module add fonts`. Формат по умолчанию — woff2.
+- Иконки — `@nuxt/icon` (линия 2.x, 2.5.1): компонент `<Icon>` на Iconify,
+  режим по умолчанию css. Для совместимости со слой-схемой TW4 включить
+  `icon.cssLayer` в app.config, иначе css-режим выпадает из каскадных слоёв.
+- Коллекции иконок — точечные `@iconify-json/<set>` под фактически используемые
+  сеты; полный `@iconify/json` не ставить (раздувает установку). Локальные
+  коллекции класть в `app/assets`.
+- Бинарные шрифты (.woff/.woff2/.ttf/.otf) уже вне домена line-guard
+  (BINARY_EXTENSIONS в scripts/check-line-limit.mjs) — домен подсчёта под них
+  не расширять.
+
+Источники: https://github.com/nuxt/fonts, https://github.com/nuxt/icon.

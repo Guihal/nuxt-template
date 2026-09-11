@@ -1,0 +1,38 @@
+---
+description: Styling pipeline scope — Tailwind v4 via @tailwindcss/vite, injected output-free SCSS hub, single-source token bridge, @apply boundary, modern sass API
+globs: app/assets/**, app/**/*.vue
+---
+
+# Стилизация (Tailwind v4 + SCSS-инжект)
+
+- TW4 живёт vite-плагином `@tailwindcss/vite` в `vite.plugins` nuxt.config;
+  точка входа — `app/assets/css/main.css` (`@import "tailwindcss"`) в массиве
+  `css` последним. Модуль `@nuxtjs/tailwindcss` не использовать: он держит линию
+  TW3 и несовместим с этой схемой.
+- SCSS-хаб `app/assets/scss/main.scss` инжектится в каждую scss-компиляцию через
+  `vite.css.preprocessorOptions.scss.additionalData` (`@use "main" as *;`).
+  Ручные `@use "main"` / `@use "tokens"` в коде не писать: вторая цепочка @use
+  ломает компиляцию. В эмиттере `theme.scss` собственных @use нет совсем.
+- Хаб и партиалы (`_tokens.scss`, `_mixins.scss`) — output-free: только
+  `@use`/`@forward`/`$vars`/миксины/функции. CSS из них задублировался бы в
+  каждую компиляцию; эмитит только `theme.scss`, однократно через массив `css`.
+- Дизайн-токен заводится тремя синхронными правками: `$var` в `_tokens.scss` →
+  `--token-*` в `:root` эмиттера `theme.scss` → зеркало в `@theme inline` в
+  main.css. Пропущенная точка — дрейф источников; проверка после сборки — diff
+  множеств `--token-*`-объявлений и `var(--token-*)`-использований (обязан быть
+  пустым).
+- `@theme inline` обязателен: он оставляет в теме var()-ссылки на токены эмиттера;
+  без inline тема превращается во второй источник значений.
+- `@apply` — только в графе tailwind-entry (`app/assets/css/main.css`): sass
+  компилируется раньше TW, и в scss (включая `<style lang="scss">` в .vue)
+  он не раскрывается — молча остаётся литералом. В scss пишем обычный CSS на
+  var()-токенах плюс `@include` миксинов из хаба.
+- Рост: новые токены/миксины/функции — в партиалах; новый партиал подключается
+  `@forward`-ом в хаб. Хаб эмиттером не становится (см. пункт выше).
+- Препроцессор — `sass-embedded` (drop-in замена — devDep `sass`, конфиг не
+  меняется). Синтаксис — только modern API (`@use`/`@forward`); `@import`
+  запрещён (deprecated с sass 1.80). Load path хаба задаёт `loadPaths` в
+  nuxt.config: legacy-ключ `includePaths` sass-embedded молча игнорирует.
+
+Источники: rules/nuxt.md (Стили), https://tailwindcss.com/docs/installation/using-vite,
+https://sass-lang.com/d/import.

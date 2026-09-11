@@ -1,0 +1,25 @@
+---
+description: Prettier formatting discipline — local prettier as the fourth pre-commit gate, two repository deviations from defaults, editorconfig pairing, unparsed .mdc handled manually, eslint-config-prettier dormant
+alwaysApply: true
+---
+
+# Форматирование (Prettier)
+
+- Форматтер — локальный prettier (devDependency), не системный бинарь: гейт на
+  глобальной версии невоспроизводим на другой машине.
+- Команды: `npm run format` (--write .) и `npm run format:check` (--check .) —
+  четвёртый шаг pre-commit хука, после line-guard. Любая правка .md/.json/.ts/
+  .vue/.css/.scss сразу в prettier-нормах (`npx prettier --write <файлы>` перед
+  коммитом), а не отдельным «форматирующим» коммитом.
+- Конфиг (.prettierrc.json) — дефолты плюс два отклонения под стиль репо:
+  `semi: false`, `singleQuote: true`. Новые отклонения не вводить без задачи.
+- `.editorconfig` согласован с prettier и меняется в паре с ним: пробелы,
+  indent 2, lf, финальный перевод строки, max_line_length = printWidth = 80.
+- Prettier не парсит `.mdc` — их форматирование держится вручную по стилю
+  существующих правил; `.md` парсится и проверяется гейтом.
+- `eslint-config-prettier` — dormant: у @nuxt/eslint сейчас нет stylistic-правил,
+  отключать нечего. Ставить (10.1.8, вход `/flat`) только когда в ESLint-конфиге
+  появились stylistic-правила, конфликтующие с prettier.
+
+Источники: https://prettier.io/docs/en/configuration,
+https://prettier.io/docs/en/precommit.

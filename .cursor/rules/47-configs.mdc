@@ -9,6 +9,11 @@ globs: nuxt.config.ts, eslint.config.mjs
   произвольная смена меняет семантику сборки незаметно для ревью.
 - Модули подключаются только списком `modules: [...]` в `nuxt.config.ts`; новый
   модуль — это запись в modules и зависимость в package.json одним коммитом.
+- Различай три способа подключить фронтенд-инфраструктуру. Nuxt-модуль — запись
+  в modules плюс dep. Vite-плагин без модуля — инстанс в `vite.plugins`
+  (так подключён `@tailwindcss/vite`). CSS-входы — массив `css`: эмитящие
+  файлы идут до TW-entry, инжектная настройка — в
+  `vite.css.preprocessorOptions`.
 - После любой правки конфига — `npx nuxt prepare`: без неё `.nuxt/`-типы и
   ESLint-конфиг остаются от старого набора модулей, typecheck врёт.
 - `eslint.config.mjs` строится поверх `withNuxt` (импорт из ./.nuxt/eslint.config.mjs):

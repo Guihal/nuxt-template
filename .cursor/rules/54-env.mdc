@@ -1,0 +1,19 @@
+---
+description: Dormant env activator — .env.example convention with placeholders (never secrets), Nuxt loads .env natively via c12, validation arrives with server/runtimeConfig
+globs: .env.example, .env
+---
+
+# Env (dormant — активатор)
+
+- Nuxt грузит `.env` из коробки (c12): отдельные dotenv-обвязки не добавлять.
+- Конвенция репо: `.env.example` с плейсхолдерами коммитится, реальные значения —
+  нет. `.gitignore` уже держит `.env`/`.env.*` с исключением `!.env.example`;
+  самого файла в гите нет — он появляется вместе с первой env-переменной.
+- Секреты в репозиторий не попадают: ни в `.env.example`, ни в коде, ни в
+  значениях по умолчанию.
+- Потребление — через `useRuntimeConfig` (server/runtimeConfig направление);
+  схемная валидация env заводится тогда же, когда появляется первый
+  runtimeConfig-ключ, не раньше.
+
+Источники: https://nuxt.com/docs/getting-started/configuration#environment-variables,
+https://github.com/unjs/c12.
