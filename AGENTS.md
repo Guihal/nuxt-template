@@ -1,4 +1,4 @@
-# agents.md — nuxt-template
+# AGENTS.md — nuxt-template
 
 Базовая сборка Nuxt 4, подготовленная для работы AI-агентов: линтер, typecheck,
 лимит 200 строк на файл и pre-commit гейт настроены и проверяются на каждом коммите.

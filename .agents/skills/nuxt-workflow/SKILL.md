@@ -5,7 +5,7 @@ description: Workflow for developing and verifying changes in the nuxt-template 
 
 # nuxt-workflow
 
-Как работать в этом репозитории (Nuxt 4 + AI-ready гейты). Детали — `agents.md`,
+Как работать в этом репозитории (Nuxt 4 + AI-ready гейты). Детали — `AGENTS.md`,
 `docs/guideline.md`, `rules/nuxt.md`.
 
 ## Цикл изменения

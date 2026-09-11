@@ -18,4 +18,4 @@ alwaysApply: true
   без зелёного `npm run typecheck` на новой паре версий.
 - Корневой `tsconfig.json` генерируемый — руками не редактировать.
 
-Источники: agents.md (операционика), docs/guideline.md, package.json scripts.
+Источники: AGENTS.md (операционика), docs/guideline.md, package.json scripts.

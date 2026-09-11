@@ -18,4 +18,4 @@ globs: nuxt.config.ts, eslint.config.mjs
 - Не добавляй в конфиг то, что не проверишь локально: `npm run dev` и
   `npm run build` должны проходить сразу после правки.
 
-Источники: agents.md, docs/guideline.md, rules/nuxt.md (Конфиг Nuxt).
+Источники: AGENTS.md, docs/guideline.md, rules/nuxt.md (Конфиг Nuxt).

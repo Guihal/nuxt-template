@@ -59,7 +59,7 @@ nuxt.config.ts  конфиг Nuxt: modules + compatibilityDate
 
 ## Документация
 
-- [agents.md](agents.md) — команды линтера, стек, структура, правила для агентов
+- [AGENTS.md](AGENTS.md) — команды линтера, стек, структура, правила для агентов
 - [docs/guideline.md](docs/guideline.md) — гайдлайн разработки в этом репозитории
 - [rules/nuxt.md](rules/nuxt.md) — правила Nuxt для AI-агентов (по ресерчу)
 - [`.agents/skills/nuxt-workflow/SKILL.md`](.agents/skills/nuxt-workflow/SKILL.md) — скилл workflow
