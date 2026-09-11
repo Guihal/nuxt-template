@@ -1,6 +1,7 @@
-# pre-commit gate: lint -> typecheck -> line-guard.
+# pre-commit gate: lint -> typecheck -> line-guard -> format:check.
 # Any non-zero exit rejects the commit.
 set -e
 npm run lint
 npm run typecheck
 npm run line-guard
+npm run format:check
