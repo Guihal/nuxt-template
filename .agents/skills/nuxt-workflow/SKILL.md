@@ -14,10 +14,14 @@ description: Workflow for developing and verifying changes in the nuxt-template 
 2. Перед коммитом прогони:
    - `npm run lint` — ESLint (включая `max-lines: 200` для .ts/.vue/.mjs);
    - `npm run typecheck` — vue-tsc (покрывает `app/**` и генерируемые проекты);
-   - `npm run line-guard` — 200 строк для не-кодовых файлов (всё, кроме `package-lock.json`).
-3. Коммить: pre-commit хук (husky) сам повторит lint → typecheck → line-guard
-   и отклонит коммит при любой ошибке. Коммит проходит = все три проверки зелёные
-   на момент коммита.
+   - `npm run line-guard` — 200 строк для не-кодовых файлов (всё, кроме `package-lock.json`);
+   - `npm run format:check` — Prettier (правки .md/.json/.css/.scss/.ts/.vue
+     сразу в prettier-нормах: `npx prettier --write <файлы>`).
+3. Коммить: pre-commit хук (husky) сам повторит lint → typecheck → line-guard →
+   format:check и отклонит коммит при любой ошибке. Коммит проходит = все четыре
+   проверки зелёные на момент коммита.
+
+Стили (токены, TW4, scss-хаб, @apply-граница) — скилл `nuxt-styling`.
 
 ## Инварианты репозитория
 
@@ -34,5 +38,8 @@ description: Workflow for developing and verifying changes in the nuxt-template 
 - `TS2322`/прочие `TSxxxx` — type-ошибка; проверяется только код в `app/**`
   (корневые .ts вне tsconfig-проектов typecheck не видит — ловит ESLint).
 - `line-guard: N file(s) exceed the 200-line limit` — сократи/раздели не-кодовый файл.
+- `[warn] <файл> Code style issues found` от format:check — прогони
+  `npx prettier --write <файлы>` (или `npm run format`) и перекоммить; .mdc
+  prettier не парсит — их стиль держится вручную.
 - Хук молча не сработал — `git config core.hooksPath` должен быть `.husky/_`;
   если нет — `npm install` (скрипт `prepare` переактивирует husky).
