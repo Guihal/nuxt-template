@@ -102,7 +102,7 @@ nuxt.config.ts  конфиг Nuxt: modules + compatibilityDate
 ### Правила на вырост и развитие слоя
 
 - Для ещё не существующих каталогов (`app/pages/`, `app/components/`,
-  `app/composables/`, `app/utils/`, `shared/`, `server/`) правила в `.cursor/rules/`
+  `app/composables/`, `app/utils/`, `shared/`) правила в `.cursor/rules/`
   написаны заранее и активируются с появлением первого файла в каталоге.
 - Каталог появился — добавь рядом его вложенный `AGENTS.md`-дайджест, как сделано
   в `app/` и `app/stores/`.

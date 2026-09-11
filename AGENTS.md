@@ -66,7 +66,7 @@ tsconfig.json   ТОЛЬКО генерируется (nuxt prepare) — рук�
 6. Скоуп-инварианты Nuxt живут в `.cursor/rules/*.mdc`: alwaysApply-база (структура app/,
    автоимпорты, данные/состояние, гейты) плюс правила по каталогам — `app/stores/**`,
    `public/**`, конфиги; для отсутствующих ещё каталогов (`app/pages/`, `app/components/`,
-   `app/composables/`, `app/utils/`, `shared/`, `server/`) правила написаны на вырост
+   `app/composables/`, `app/utils/`, `shared/`) правила написаны на вырост
    и активируются с появлением каталога.
 7. Codex читает этот файл как корень инструкции и добавляет вложенные дайджесты
    `app/AGENTS.md` и `app/stores/AGENTS.md`, когда сессия стартует внутри поддерева.
