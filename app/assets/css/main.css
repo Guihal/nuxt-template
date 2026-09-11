@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Token bridge (I7): scss $vars -> :root custom props (theme.scss, emitted
    once) -> TW theme mirrors them as var() references. `inline` keeps the

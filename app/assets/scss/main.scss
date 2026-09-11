@@ -3,5 +3,5 @@
 // available without manual imports.
 // INVARIANT I5 — output-free: @use/@forward/$vars/mixins/functions only.
 // Any CSS emitted here duplicates into every scss compilation (oracle A2).
-@forward "tokens";
-@forward "mixins";
+@forward 'tokens';
+@forward 'mixins';

@@ -12,16 +12,16 @@
 
 ## Команды
 
-| Команда | Что делает |
-|---|---|
-| `npm install` | установка зависимостей + `nuxt prepare` (типы `.nuxt/`) + активация husky |
-| `npm run dev` | dev-сервер на http://localhost:3000 |
-| `npm run build` | прод-сборка; `npm run preview` — локальный просмотр сборки |
-| `npm run lint` | ESLint по всему репо (flat config) |
-| `npm run lint:fix` | ESLint с автоисправлением |
-| `npm run typecheck` | `nuxt typecheck` (vue-tsc) — проверка типов |
-| `npm run line-guard` | лимит 200 строк для не-кодовых файлов (.md, .json, ...) |
-| `npx nuxt prepare` | регенерация `.nuxt/` — обязательна после правки `nuxt.config.ts` |
+| Команда              | Что делает                                                                |
+| -------------------- | ------------------------------------------------------------------------- |
+| `npm install`        | установка зависимостей + `nuxt prepare` (типы `.nuxt/`) + активация husky |
+| `npm run dev`        | dev-сервер на http://localhost:3000                                       |
+| `npm run build`      | прод-сборка; `npm run preview` — локальный просмотр сборки                |
+| `npm run lint`       | ESLint по всему репо (flat config)                                        |
+| `npm run lint:fix`   | ESLint с автоисправлением                                                 |
+| `npm run typecheck`  | `nuxt typecheck` (vue-tsc) — проверка типов                               |
+| `npm run line-guard` | лимит 200 строк для не-кодовых файлов (.md, .json, ...)                   |
+| `npx nuxt prepare`   | регенерация `.nuxt/` — обязательна после правки `nuxt.config.ts`          |
 
 ## Pre-commit гейт
 
