@@ -12,15 +12,16 @@ npm run dev         # http://localhost:3000
 npm run lint        # ESLint
 npm run typecheck   # nuxt typecheck (vue-tsc)
 npm run line-guard  # лимит 200 строк (не-код)
+npm run format      # Prettier по репо (--write)
 ```
 
-Перед коммитом все четыре проверки должны проходить — pre-commit хук прогоняет
-три из них и отклоняет коммит при ошибке.
+Все проверки должны проходить перед коммитом — pre-commit хук прогоняет их все
+(lint, typecheck, line-guard, format:check) и отклоняет коммит при ошибке.
 
 ## Гейт коммита
 
-- Хук: `.husky/pre-commit` — последовательно `lint → typecheck → line-guard`,
-  `set -e`: первое падение останавливает цепочку и отклоняет коммит.
+- Хук: `.husky/pre-commit` — последовательно `lint → typecheck → line-guard →
+format:check`, `set -e`: первое падение останавливает цепочку и отклоняет коммит.
 - Активация husky — скрипт `prepare` в `package.json` (выполняется `npm install`).
   Проверка активации: `git config core.hooksPath` → `.husky/_`.
 - Если хук не сработал после клона — выполнить `npm install` (или `npx husky`).
@@ -30,9 +31,21 @@ npm run line-guard  # лимит 200 строк (не-код)
 - Код (.ts, .vue, .mjs): правило `max-lines` в `eslint.config.mjs`.
 - Не-код (.md, .json и пр.): `scripts/check-line-limit.mjs`. Юниверс — файлы, видимые
   git (`git ls-files --cached --others --exclude-standard`); исключение — только
-  `package-lock.json`; бинарные расширения (.png/.ico/.webp) не считаются.
+  `package-lock.json`; бинарные расширения (.png/.ico/.webp, шрифты
+  .woff/.woff2/.ttf/.otf) не считаются.
 - Файл вырос — раздели его, а не повышай лимит. Константа лимита живёт в двух местах:
   `eslint.config.mjs` и `scripts/check-line-limit.mjs`.
+
+## Форматирование (Prettier)
+
+- Prettier — локальная devDependency, не системный бинарь: `npm run format`
+  (--write) и `npm run format:check` (--check, четвёртый шаг хука).
+- Конфиг `.prettierrc.json` — дефолты и два отклонения под стиль репо:
+  `semi: false`, `singleQuote: true`; правки кода и .md сразу в prettier-нормах.
+- `.editorconfig` согласован с prettier (indent 2, lf, max_line_length 80) —
+  менять в паре.
+- `.mdc`-правила prettier не парсит — их оформление держится вручную по стилю
+  существующих файлов.
 
 ## Правки кода
 

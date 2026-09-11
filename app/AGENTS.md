@@ -12,5 +12,7 @@
   (канон: `.cursor/rules/20-data-and-state.mdc`).
 - Сторы: setup-стиль по образцу `stores/counter.ts`
   (канон: `.cursor/rules/40-stores.mdc`).
-- Гейты качества — 200 строк, pre-commit lint→typecheck→line-guard; детали и
-  команды — в корневом `AGENTS.md` и `.cursor/rules/30-quality-gates.mdc`.
+- Стили: TW4-плагин + инжект SCSS-хаба; токены, @apply-граница и output-free
+  партиалы (канон: `.cursor/rules/50-styling.mdc`).
+- Гейты качества — 200 строк, pre-commit lint→typecheck→line-guard→format:check;
+  детали и команды — в корневом `AGENTS.md` и `.cursor/rules/30-quality-gates.mdc`.

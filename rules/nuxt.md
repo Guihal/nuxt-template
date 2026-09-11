@@ -31,6 +31,10 @@ pinia.vuejs.org — полный список источников внизу.
 - `eslint.config.mjs` импортирует `withNuxt` из `./.nuxt/eslint.config.mjs`
   (файл генерируется `nuxt prepare` — не править его руками).
 - Локальный лимит: `max-lines: 200` для кода; не-кодовые файлы — `scripts/check-line-limit.mjs`.
+- Форматирование — локальный Prettier: конфиг в `.prettierrc.json` (отклонения от
+  дефолтов: `semi: false`, `singleQuote: true`), команды `format`/`format:check`,
+  `.editorconfig` синхронизирован с ним; `eslint-config-prettier` не ставится,
+  пока у ESLint нет stylistic-правил.
 
 ## Pinia
 
@@ -46,6 +50,32 @@ pinia.vuejs.org — полный список источников внизу.
 - Проверка работы: HTML страницы содержит `<img src="/_ipx/...">`, а curl этого src
   отдаёт HTTP 200 (не passthrough).
 
+## Стили (Tailwind v4 + SCSS)
+
+- TW4 подключён vite-плагином `@tailwindcss/vite` в `vite.plugins`; официальный
+  framework-guide для Nuxt рекомендует именно этот маршрут: модуль
+  `@nuxtjs/tailwindcss` остался на линии TW3 и для TW4 не используется.
+- Вход TW — `@import "tailwindcss"` в `app/assets/css/main.css` (массив `css` в
+  nuxt.config, после эмиттера темы). Тема задаётся блоком `@theme inline`.
+- SCSS — `sass-embedded`; откат при проблемах платформенного бинарника — замена
+  devDependency на `sass`, конфиг не меняется. Modern API: `@use`/`@forward`,
+  `@import` deprecated с sass 1.80.
+- Инжект-хаб: `app/assets/scss/main.scss` доступен в каждой scss-компиляции без
+  импорта через `additionalData` (`@use "main" as *;`) плюс `loadPaths` на каталог
+  хаба. Хаб output-free (только @forward-ы), члены — в партиалах `_tokens.scss`
+  и `_mixins.scss`; эмитящий CSS — только `theme.scss` через массив `css` ровно
+  один раз, иначе каждое `:root` продублируется на каждую компиляцию.
+- Единый источник токенов — var-мост: `$vars` партиала → `:root`-custom props
+  эмиттера → `@theme inline` зеркалит их var()-ссылками. Inline важен: без него
+  TW скопировал бы значения, и источник стал бы двояким. Каскадная защита моста —
+  слои: unlayered `:root` сильнее `@layer theme` при любом порядке.
+- `@apply` работает только в графе tailwind-entry (`main.css`): sass-компиляция
+  идёт раньше раскрытия TW, и в scss-источниках (включая `<style lang="scss">`
+  в SFC) `@apply` остаётся литералом. В scss — обычный CSS на var()-токенах
+  и миксинах.
+- Конфиг: путь хаба задаётся `loadPaths`; legacy-ключ `includePaths`
+  sass-embedded молча игнорирует (проверено на 1.104.0 сборкой SFC-стиля).
+
 ## Конфиг Nuxt
 
 - `compatibilityDate` фиксирован (`2025-07-15`) — не опускать.
@@ -54,8 +84,10 @@ pinia.vuejs.org — полный список источников внизу.
 
 ## Git-гигиена здесь
 
-- 200 строк на файл (все файлы, кроме `package-lock.json`).
-- Pre-commit (husky): `lint → typecheck → line-guard`; коммит с ошибкой отклоняется.
+- 200 строк на файл (все файлы, кроме `package-lock.json`; бинарные шрифты
+  вне домена подсчёта).
+- Pre-commit (husky): `lint → typecheck → line-guard → format:check`; коммит
+  с ошибкой отклоняется.
 - Фикстуры/временные файлы не коммитить: создал → проверил → удалил.
 
 ## Официальные AI-ресурсы Nuxt
@@ -74,3 +106,6 @@ pinia.vuejs.org — полный список источников внизу.
 - https://image.nuxt.com/ — @nuxt/image, NuxtImg/IPX
 - https://nuxt.com/docs/4.x/guide/ai/llms-txt и https://nuxt.com/docs/4.x/guide/ai/mcp — AI-ресурсы
 - https://eslint.org/docs/latest/rules/max-lines — max-lines не покрывает .md
+- https://tailwindcss.com/docs/installation/using-vite — TW4 через @tailwindcss/vite (framework-guide)
+- https://sass-lang.com/d/import — deprecation @import, modern API
+- https://developer.mozilla.org/en-US/docs/Web/CSS/@layer — каскадные слои, защита моста токенов

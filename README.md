@@ -1,7 +1,8 @@
 # nuxt-template
 
 Базовая сборка [Nuxt 4](https://nuxt.com): запускается сразу, готова к работе
-AI-агентов — линтер, typecheck, лимит 200 строк на файл и pre-commit гейт из коробки.
+AI-агентов — линтер, typecheck, лимит 200 строк на файл, форматирование и
+pre-commit гейт из коробки.
 
 ## Быстрый старт
 
@@ -25,34 +26,44 @@ npm run lint         # ESLint
 npm run lint:fix     # ESLint с автоисправлением
 npm run typecheck    # nuxt typecheck (vue-tsc)
 npm run line-guard   # лимит 200 строк для не-кодовых файлов
+npm run format       # Prettier по всему репо (--write)
+npm run format:check # Prettier без записи (--check)
 ```
 
 ## Качество кода
 
 На каждом коммите pre-commit хук (husky) последовательно запускает
-`lint → typecheck → line-guard` и отклоняет коммит при первой ошибке:
+`lint → typecheck → line-guard → format:check` и отклоняет коммит при первой
+ошибке:
 
 - **ESLint** — flat config от `@nuxt/eslint` + правило `max-lines: 200` для кода;
 - **typecheck** — `nuxt typecheck` (vue-tsc), покрывает `app/**` и генерируемые каталоги;
 - **line-guard** — скрипт `scripts/check-line-limit.mjs`: не более 200 строк на любой
-  файл репо (юниверс — файлы, видимые git; бинарные ассеты вне домена).
+  файл репо (юниверс — файлы, видимые git; бинарные ассеты и шрифты вне домена);
+- **format:check** — Prettier проверяет форматирование по `.prettierrc.json`
+  (semi: false, singleQuote: true), согласован с `.editorconfig`.
 
 ## Структура
 
 ```
-app/            код приложения (app.vue, stores/, components/, composables/, ...)
+app/            код приложения (app.vue, assets/, stores/, components/, ...)
+  assets/scss/  SCSS: инжект-хаб, токены, миксины; эмиттер темы — theme.scss
+  assets/css/   TW-entry (Tailwind v4) + @theme-мост токенов
 .cursor/rules/  скоуп-инварианты Nuxt для AI-агентов (.mdc)
 public/         статика (demo.png, robots.txt, favicon.ico)
 scripts/        служебные скрипты (check-line-limit.mjs)
 docs/           гайдлайн разработки (guideline.md)
 rules/          документ-основание правил (nuxt.md)
 .agents/skills/ скиллы для AI-агентов (nuxt-workflow + пер-фичные)
-nuxt.config.ts  конфиг Nuxt: modules + compatibilityDate
+nuxt.config.ts  конфиг Nuxt: modules, css, vite, compatibilityDate
 ```
 
 ## Стек
 
 - [Nuxt 4](https://nuxt.com) (структура `app/`) + TypeScript `~6.0.0`
+- [Tailwind CSS v4](https://tailwindcss.com) — через `@tailwindcss/vite`; SCSS через
+  sass-embedded с инжект-хабом дизайн-токенов (`app/assets/scss`)
+- [Prettier](https://prettier.io) — форматирование, четвёртый шаг pre-commit гейта
 - [@pinia/nuxt](https://pinia.vuejs.org/ssr/nuxt.html) — сторы с автоимпортом из `app/stores/`
 - [@nuxt/image](https://image.nuxt.com/) — `<NuxtImg>` + встроенный IPX
 - [@nuxt/eslint](https://eslint.nuxt.com) — ESLint flat config
