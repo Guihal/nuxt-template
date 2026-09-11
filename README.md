@@ -40,5 +40,5 @@ npm run line-guard   # лимит 200 строк для не-кодовых фа
 
 - [agents.md](agents.md) — команды линтера, стек, структура, правила для агентов
 - [docs/guideline.md](docs/guideline.md) — гайдлайн разработки в этом репозитории
-- [docs/nuxt-ai-rules.md](docs/nuxt-ai-rules.md) — правила Nuxt для AI-агентов (по ресерчу)
+- [rules/nuxt.md](rules/nuxt.md) — правила Nuxt для AI-агентов (по ресерчу)
 - [`.agents/skills/nuxt-workflow/SKILL.md`](.agents/skills/nuxt-workflow/SKILL.md) — скилл workflow

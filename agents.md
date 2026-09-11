@@ -46,7 +46,8 @@ app/            код приложения (дефолт Nuxt 4)
   stores/       pinia-сторы (автоимпорт)
 public/         статика (demo.png, robots.txt, favicon.ico)
 scripts/        служебные скрипты (check-line-limit.mjs)
-docs/           гайдлайн и AI-rules (guideline.md, nuxt-ai-rules.md)
+docs/           гайдлайн разработки (guideline.md)
+rules/          агентные правила (nuxt.md)
 .agents/skills/ скиллы для AI-агентов (nuxt-workflow)
 nuxt.config.ts  конфиг Nuxt: modules + compatibilityDate
 eslint.config.mjs   ESLint flat config (withNuxt + max-lines)
@@ -55,7 +56,7 @@ tsconfig.json   ТОЛЬКО генерируется (nuxt prepare) — рук�
 
 ## Правила для агентов
 
-1. Правила работы с Nuxt — `docs/nuxt-ai-rules.md`; процесс разработки — `docs/guideline.md`.
+1. Правила работы с Nuxt — `rules/nuxt.md`; процесс разработки — `docs/guideline.md`.
 2. Скилл проекта: `.agents/skills/nuxt-workflow/SKILL.md` (workflow и проверки репозитория).
 3. `nuxt typecheck` покрывает только файлы tsconfig-проектов (`app/**` и генерируемые);
    корневые `.ts`-файлы вне `app/` typecheck'ом не проверяются — их ловит только ESLint.
