@@ -1,0 +1,20 @@
+---
+description: shared/ directory boundary (rule for the future — directory not yet created) — no Vue/Nitro imports, auto-import only from shared/utils and shared/types
+globs: shared/**
+---
+
+# Граница shared/ — правило на вырост
+
+Каталога `shared/` в репо ещё нет; правило спит до появления. `shared/` — код,
+нужный одновременно Vue-приложению и Nitro-серверу (официальная директория Nuxt 4).
+
+- Импортировать Vue- или Nitro-код из `shared/` запрещено: приложение и сервер
+  бандлятся независимо и в разных контекстах — чужой импорт ломает сборку или рантайм.
+- Автоимпорт внутри `shared/` работает только из `shared/utils/` и `shared/types/`;
+  весь остальной код каталога подключай явным импортом через алиас `#shared`.
+- Типы, нужные обеим сторонам (контракты API), — в `shared/types/`; типы одной
+  стороны — рядом с её контекстом (в приложении либо в `server/types/`).
+- `import type` стирается при компиляции и потому проходит через границу — это не
+  повод держать тип не в том каталоге: значение потом всё равно переедет.
+
+Источники: https://nuxt.com/docs/4.x/directory-structure/shared.

@@ -1,0 +1,22 @@
+---
+description: File-based routing conventions for app/pages/** (rule for the future — directory not yet created, router currently disabled)
+globs: app/pages/**
+---
+
+# Страницы (app/pages/**) — правило на вырост
+
+Каталога `app/pages/` в репо ещё нет, роутер выключен; правило спит до появления
+первой страницы. Пути из коллекций эры Nuxt 3 (`pages/` в корне) здесь всегда
+означают `app/pages/`.
+
+- Файл в `app/pages/` = маршрут; вложенность каталогов задаёт вложенность URL.
+- Метаданные маршрута — через `definePageMeta()` (layout, middleware, валидация
+  параметров); не дублируй их в конфиге.
+- Навигация — `<NuxtLink>`, не голый `<a>`: иначе теряется клиентская навигация.
+- Динамические сегменты — `[id].vue`; валидацию параметров делай в `definePageMeta`.
+- SEO-теги страницы — `useSeoMeta`/`useHead` в самой странице, не глобально.
+- Данные страницы — через useFetch/useAsyncData (см. data-and-state), не через $fetch
+  в setup.
+
+Источники: https://nuxt.com/raw/docs/4.x/directory-structure/app/pages.md,
+https://github.com/PatrickJS/awesome-cursorrules (Nuxt 3 rules, пути адаптированы).

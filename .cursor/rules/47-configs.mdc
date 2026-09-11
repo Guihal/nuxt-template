@@ -1,0 +1,21 @@
+---
+description: Config file discipline for nuxt.config.ts and eslint.config.mjs — compatibilityDate, modules, prepare step, withNuxt layering, generated tsconfig
+globs: nuxt.config.ts, eslint.config.mjs
+---
+
+# Конфиги (nuxt.config.ts, eslint.config.mjs)
+
+- `compatibilityDate` фиксирован и не опускается: дата задаёт поведение фич Nuxt,
+  произвольная смена меняет семантику сборки незаметно для ревью.
+- Модули подключаются только списком `modules: [...]` в `nuxt.config.ts`; новый
+  модуль — это запись в modules и зависимость в package.json одним коммитом.
+- После любой правки конфига — `npx nuxt prepare`: без неё `.nuxt/`-типы и
+  ESLint-конфиг остаются от старого набора модулей, typecheck врёт.
+- `eslint.config.mjs` строится поверх `withNuxt` (импорт из ./.nuxt/eslint.config.mjs):
+  кастомные правила добавляются в объект-аргумент, сам withNuxt-импорт не переписывается.
+- Корневой `tsconfig.json` генерируемый (project references .nuxt/tsconfig.*):
+  типы расширяются ключом `typescript` в `nuxt.config.ts`, руками файл не правится.
+- Не добавляй в конфиг то, что не проверишь локально: `npm run dev` и
+  `npm run build` должны проходить сразу после правки.
+
+Источники: agents.md, docs/guideline.md, rules/nuxt.md (Конфиг Nuxt).

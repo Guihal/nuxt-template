@@ -1,0 +1,21 @@
+---
+description: Repo quality gates as agent behavior — 200-line limit, pre-commit hook discipline, typecheck coverage boundary, TypeScript pin
+alwaysApply: true
+---
+
+# Гейты качества: поведение агента
+
+- Любой файл — не более 200 строк. Файл вырос — дели по фиче/скоупу; повышать лимит
+  запрещено (код — ESLint max-lines, не-код — scripts/check-line-limit.mjs).
+- Pre-commit гейт последовательно гоняет lint, typecheck и line-guard и отклоняет
+  коммит при первой ошибке. Красный гейт — чинить контент, обходить или ослаблять
+  хук запрещено.
+- Перед коммитом проверь сам: `npm run lint`, `npm run typecheck`,
+  `npm run line-guard` — хук повторит то же самое на рабочем дереве.
+- `nuxt typecheck` проверяет файлы tsconfig-проектов (app/** и генерируемые);
+  корневые `.ts` вне app/ он не видит — их единственный щит ESLint.
+- typescript закреплён на ~6.0.0: линия 7.x роняет vue-tsc 3.3.11. Мажор не поднимать
+  без зелёного `npm run typecheck` на новой паре версий.
+- Корневой `tsconfig.json` генерируемый — руками не редактировать.
+
+Источники: agents.md (операционика), docs/guideline.md, package.json scripts.

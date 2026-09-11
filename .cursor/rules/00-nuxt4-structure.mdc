@@ -1,0 +1,24 @@
+---
+description: Nuxt 4 app/-directory model for this repo — where code lives, legacy flat layout forbidden, live vs future directories
+alwaysApply: true
+---
+
+# Структура Nuxt 4: модель app/
+
+- Код приложения живёт в `app/` — это дефолт Nuxt 4: `app.vue`, `stores/`, а по мере
+  роста `components/`, `composables/`, `pages/`, `layouts/`, `middleware/`, `utils/`.
+- Плоская легаси-раскладка (pages/ или components/ в корне репо) запрещена: это схема
+  Nuxt 3, несовместимая со структурой этого репо (nuxt ^4.5.2, config compatibilityDate).
+- `server/`, `public/`, `shared/` и `nuxt.config.ts` остаются в корне репо — srcDir их
+  в `app/` не переносит.
+- Сейчас существуют: `app/app.vue`, `app/stores/`, `public/`. Каталоги `app/pages/`,
+  `app/components/`, `app/composables/`, `app/utils/`, `shared/`, `server/` — оси роста:
+  скоуп-правило появляется раньше каталога; создав каталог, следуй его скоуп-правилу
+  из `.cursor/rules/`.
+- Роутер выключен, пока нет `app/pages/`; первая страница включает vue-router
+  автоматически — это конвенция file-based routing, отдельная установка не нужна.
+- После любой правки `nuxt.config.ts` выполняй `npx nuxt prepare`: регенерируются
+  `.nuxt/`-типы и ESLint-конфиг; без этого typecheck и линт видят устаревшие типы.
+
+Источники: https://nuxt.com/llms.txt (индекс док 4.x), package.json (nuxt ^4.5.2),
+rules/nuxt.md (структура v4).

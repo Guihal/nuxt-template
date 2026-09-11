@@ -1,0 +1,22 @@
+---
+description: Auto-import surface in Nuxt 4 — what is imported implicitly, when manual imports are wrong, shared/ exceptions
+alwaysApply: true
+---
+
+# Автоимпорты: поверхность и дисциплина
+
+- Nuxt неявно даёт: Vue API (`ref`, `computed`, `watch`, ...), компоненты из
+  `app/components/`, композаблы из `app/composables/`, хелперы из `app/utils/`.
+- Сторы `@pinia/nuxt` автоимпортятся из `app/stores/` целиком (`useCounterStore`
+  доступен без import — см. `app/stores/counter.ts`).
+- В `server/` неявно доступны экспорты из `server/utils/`; в клиентском коде их нет.
+- Ручные `import` для автоимпортируемого не писать: это шум и рассинхрон с типами,
+  которые генерирует `nuxt prepare`.
+- Исключение — `shared/`: неявно подхватываются только `shared/utils/` и
+  `shared/types/`; прочий код этого каталога подключай явным импортом через алиас
+  `#shared`.
+- Не называй собственные утилиты и композаблы именами встроенного API
+  (`ref`, `useFetch`, `useState`, ...): коллизия ломает автоимпорт молча.
+
+Источники: https://nuxt.com/docs/4.x/guide/concepts/auto-imports,
+https://nuxt.com/docs/4.x/directory-structure/shared, `app/stores/counter.ts`.

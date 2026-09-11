@@ -1,0 +1,21 @@
+---
+description: Pinia store conventions for app/stores/** — setup style, auto-import, storeToRefs, one domain per store
+globs: app/stores/**
+---
+
+# Сторы (app/stores/**)
+
+- Стиль store'а — setup: `defineStore('имя', () => { ... })` с `ref` и функциями,
+  как в `app/stores/counter.ts`; options-стиль не используем.
+- Сторы автоимпортятся из `app/stores/` — ручные импорты стора в компонентах не нужны.
+- В компоненте ref'ы стора разворачивай через `storeToRefs`, действия вызывай прямо
+  на экземпляре.
+- Один домен — один стор: не сваливай несвязанное состояние в общий стор-свалку;
+  разросшийся стор дели по домену, а не по вкусу.
+- Асинхронщина — в action, а не на верхнем уровне setup стора: инициализация state
+  должна оставаться синхронной и сериализуемой.
+- SSR-предостережение: состояние стора попадает в payload — без классов, функций и
+  прочего несериализуемого.
+
+Источники: https://nuxt.com/docs/4.x/getting-started/state-management,
+https://pinia.vuejs.org/ssr/nuxt.html, `app/stores/counter.ts`.

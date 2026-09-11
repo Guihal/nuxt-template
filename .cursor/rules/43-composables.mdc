@@ -1,0 +1,22 @@
+---
+description: Composable conventions for app/composables/** (rule for the future — directory not yet created in this repo)
+globs: app/composables/**
+---
+
+# Композаблы (app/composables/**) — правило на вырост
+
+Каталога `app/composables/` в репо ещё нет; правило спит до появления первого файла.
+
+- Имя с префикса `use`, один композабл — одна забота; экспорт именованный
+  (`export function useX`), тогда он подхватывается автоимпортом.
+- SSR-безопасность: никаких `window`/`document`/`localStorage` на верхнем уровне
+  модуля — только внутри `onMounted` или клиентских веток.
+- Возвращай реактивные значения как есть (`ref`/`computed`/функции), не разворачивай
+  их наружу — теряется реактивность.
+- Прежде чем писать свой композабл, проверь встроенные: `useFetch`, `useState`,
+  `useRoute`, `useHead` — свой аналог встроенного API запрещён.
+- Состояние между вызовами композабла — через стор или `useState`, не через
+  модульные переменные (в SSR модульное состояние утечёт между запросами).
+
+Источники: https://github.com/PatrickJS/awesome-cursorrules/blob/main/rules/vue-claude-stack.mdc,
+https://nuxt.com/docs/4.x/guide/concepts/auto-imports (поверхность автоимпорта).

@@ -1,0 +1,22 @@
+---
+description: Vue component conventions for app/components/** (rule for the future — directory not yet created in this repo)
+globs: app/components/**
+---
+
+# Компоненты (app/components/**) — правило на вырост
+
+Каталога `app/components/` в репо ещё нет; правило спит и заработает автоматически,
+когда появится первый файл (адаптировано из коллекций эры Nuxt 3 под структуру app/).
+
+- Только Composition API с `<script setup lang="ts">`; Options API, mixins и `this`
+  в setup — запрещены.
+- Пропсы и события — с дженериками: `defineProps<T>()`, `defineEmits<T>()`;
+  v-model — через `defineModel()`.
+- Один компонент — один файл; имя файла совпадает с именем компонента в PascalCase.
+- Компонент не запрашивает данные сам: props/store/composables (см. data-and-state).
+- Сложную логику шаблона выноси в `computed` или композабл — шаблон остаётся декларативным.
+- Компоненты из этого каталога доступны в шаблонах без импорта — коллизии имён
+  недопустимы.
+
+Источники: https://github.com/PatrickJS/awesome-cursorrules/blob/main/rules/vue-claude-stack.mdc
+(адаптация путей Nuxt 3 под app/), https://nuxt.com/docs/4.x/guide/concepts/auto-imports.

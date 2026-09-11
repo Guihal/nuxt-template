@@ -1,0 +1,24 @@
+---
+description: Data flow and state invariants — components never call APIs directly, useFetch/useAsyncData for SSR data, pinia for shared state, API change updates contract
+alwaysApply: true
+---
+
+# Данные и состояние: поток и контракт
+
+- Компонент не ходит во внешний API напрямую: данные получает через
+  `useFetch`/`useAsyncData` либо через pinia-стор; компонент знает про стор и props,
+  не про HTTP.
+- Рендер-данные — только `useFetch`/`useAsyncData`: они дедуплицируются через
+  SSR-payload. Прямой запрос в setup даёт двойной запрос (сервер + hydration) и
+  расхождения гидратации.
+- `$fetch` — для точечных клиентских действий (submit формы, клик), а не для данных
+  первого рендера.
+- Разделяемое состояние — pinia-сторы в `app/stores/` (setup-стиль). Для лёгкого
+  сериализуемого состояния допустим `useState`; в его значении не должно быть
+  классов, функций и символов — оно сериализуется в payload.
+- Смена формы ответа API — это смена контракта: в том же коммите обнови типы ответа
+  и всех потребителей; тип контракта держи рядом с его единственным определением.
+- Асинхронную загрузку оформляй в action/композабле, а не в инициализации state.
+
+Источники: https://nuxt.com/docs/4.x/getting-started/data-fetching,
+https://nuxt.com/docs/4.x/getting-started/state-management.
