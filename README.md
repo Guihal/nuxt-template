@@ -1,9 +1,11 @@
 # nuxt-template
 
-Базовая сборка [Nuxt 4](https://nuxt.com) для Дениса: запускается сразу, готова к работе
-AI-агентов — линтер, typecheck, лимит 200 строк и pre-commit гейт из коробки.
+Базовая сборка [Nuxt 4](https://nuxt.com): запускается сразу, готова к работе
+AI-агентов — линтер, typecheck, лимит 200 строк на файл и pre-commit гейт из коробки.
 
 ## Быстрый старт
+
+Требования: Node ≥ 26, npm.
 
 ```bash
 npm install   # зависимости + nuxt prepare + активация husky
@@ -25,8 +27,27 @@ npm run typecheck    # nuxt typecheck (vue-tsc)
 npm run line-guard   # лимит 200 строк для не-кодовых файлов
 ```
 
-На каждом коммите pre-commit хук (husky) запускает `lint → typecheck → line-guard`
-и отклоняет коммит при любой ошибке.
+## Качество кода
+
+На каждом коммите pre-commit хук (husky) последовательно запускает
+`lint → typecheck → line-guard` и отклоняет коммит при первой ошибке:
+
+- **ESLint** — flat config от `@nuxt/eslint` + правило `max-lines: 200` для кода;
+- **typecheck** — `nuxt typecheck` (vue-tsc), покрывает `app/**` и генерируемые каталоги;
+- **line-guard** — скрипт `scripts/check-line-limit.mjs`: не более 200 строк на любой
+  файл репо (юниверс — файлы, видимые git; бинарные ассеты вне домена).
+
+## Структура
+
+```
+app/            код приложения (app.vue, stores/, components/, composables/, ...)
+public/         статика (demo.png, robots.txt, favicon.ico)
+scripts/        служебные скрипты (check-line-limit.mjs)
+docs/           гайдлайн разработки (guideline.md)
+rules/          агентные правила (nuxt.md)
+.agents/skills/ скиллы для AI-агентов (nuxt-workflow)
+nuxt.config.ts  конфиг Nuxt: modules + compatibilityDate
+```
 
 ## Стек
 
