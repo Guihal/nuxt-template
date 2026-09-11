@@ -41,11 +41,12 @@ npm run line-guard   # лимит 200 строк для не-кодовых фа
 
 ```
 app/            код приложения (app.vue, stores/, components/, composables/, ...)
+.cursor/rules/  скоуп-инварианты Nuxt для AI-агентов (.mdc)
 public/         статика (demo.png, robots.txt, favicon.ico)
 scripts/        служебные скрипты (check-line-limit.mjs)
 docs/           гайдлайн разработки (guideline.md)
-rules/          агентные правила (nuxt.md)
-.agents/skills/ скиллы для AI-агентов (nuxt-workflow)
+rules/          документ-основание правил (nuxt.md)
+.agents/skills/ скиллы для AI-агентов (nuxt-workflow + пер-фичные)
 nuxt.config.ts  конфиг Nuxt: modules + compatibilityDate
 ```
 
@@ -63,3 +64,46 @@ nuxt.config.ts  конфиг Nuxt: modules + compatibilityDate
 - [docs/guideline.md](docs/guideline.md) — гайдлайн разработки в этом репозитории
 - [rules/nuxt.md](rules/nuxt.md) — правила Nuxt для AI-агентов (по ресерчу)
 - [`.agents/skills/nuxt-workflow/SKILL.md`](.agents/skills/nuxt-workflow/SKILL.md) — скилл workflow
+- [`.cursor/rules/`](.cursor/rules/) — скоуп-инварианты Nuxt (носитель pi-rules)
+
+## Правила и скиллы для агентов
+
+Правила разложены по носителям так, что каждый инвариант живёт ровно в одном месте
+(single-source): общие для репо — в [AGENTS.md](AGENTS.md), скоуповые — в
+`.cursor/rules/*.mdc`, процедуры — в скиллах.
+
+| Носитель | Кто читает | Что там |
+|---|---|---|
+| `AGENTS.md` (корень) | pi-rules + Codex | стек, команды, гейт, структура, карта правил |
+| `app/AGENTS.md`, `app/stores/AGENTS.md` | только Codex | дайджесты скоупов + указатели на `.mdc` |
+| `.cursor/rules/*.mdc` | только pi-rules | alwaysApply-база + скоуп-инварианты по каталогам |
+| `.agents/skills/*/SKILL.md` | скилл-механика агента | пер-фичные процедуры; зонтик — nuxt-workflow |
+| `rules/nuxt.md` | человек и агент | документ-основание (исследование с источниками) |
+
+### Как подхватывает pi-rules
+
+Расширение [code-yeongyu/pi-rules](https://github.com/code-yeongyu/pi-rules) сканирует
+`.cursor/rules/*.mdc` рекурсивно плюс корневой `AGENTS.md`. Правило с `alwaysApply: true`
+инжектируется всегда; правило с `globs` — когда результат инструмента матчит маску.
+Режим `pi-rules-mode` (по умолчанию `both`) — статическая инжекция на старте сессии
+плюс динамическая по результату инструмента. Капы расширения: 12000 символов на
+правило и 40000 на суммарную инжекцию за один tool result.
+
+### Как подхватывает Codex
+
+По [гайду Codex](https://learn.chatgpt.com/docs/agent-configuration/agents-md):
+глобальный `~/.codex/AGENTS.md` → корень репо → вложенные файлы до текущего каталога
+(не более одного файла на директорию, ближайший к файлу побеждает; суммарный кап —
+32 KiB). Следствие для этого репо: `app/AGENTS.md` и `app/stores/AGENTS.md` грузятся,
+только если сессия стартует внутри `app/`; для сессий из корня они спят.
+`AGENTS.override.md` — поддерживаемый механизм (проверяется раньше `AGENTS.md`),
+но обработка его моделью зависит от версии; этот репозиторий override-файлов не использует.
+
+### Правила на вырост и развитие слоя
+
+- Для ещё не существующих каталогов (`app/pages/`, `app/components/`,
+  `app/composables/`, `app/utils/`, `shared/`, `server/`) правила в `.cursor/rules/`
+  написаны заранее и активируются с появлением первого файла в каталоге.
+- Каталог появился — добавь рядом его вложенный `AGENTS.md`-дайджест, как сделано
+  в `app/` и `app/stores/`.
+- Пер-фичные скиллы дополняют зонтичный `nuxt-workflow`, не заменяют его.
